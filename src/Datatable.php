@@ -1,0 +1,64 @@
+<?php
+
+namespace LiveCMS\Resources;
+
+use Illuminate\Support\HtmlString;
+use LiveCMS\DataTables\DataTables;
+
+trait Datatable
+{
+    public function getDatatable()
+    {
+        return new DataTables($this);
+    }
+
+    public function toDataTablesQuery()
+    {
+        return $this->model()->newQuery();
+    }
+
+    public function getDatatableFields()
+    {
+        $fields = [];
+        foreach ($this->fields($this->request) as $field) {
+            if ($field->is('onIndex') && $datatable = $field->toDatatable()) {
+                if (is_array($datatable)) {
+                    $fields[key($datatable)] = array_first($datatable);
+                } else {
+                    $fields[] = $datatable;
+                }
+            }
+        }
+        return $fields;
+    }
+
+    public function setActionField()
+    {
+        return [
+            'orderable' => false,
+            'searchable' => false,
+            'resolve' => function ($row) {
+                $id = $row->getKey();
+                $showUrl = static::route('show', compact('id'));
+                $editUrl = static::route('edit', compact('id'));
+                $destroyUrl = static::route('destroy', compact('id'));
+                return new HtmlString(
+<<<HTML
+                    <div class="action-buttons">
+                        <a href="{$showUrl}" class="btn btn-link btn-xs" data-id="{$id}" title="Show"><i class="fa fa-eye"></i></a>
+                        <a href="{$editUrl}" class="btn btn-link btn-xs" data-id="{$id}" title="Edit"><i class="fa fa-pencil"></i></a>
+                        <button class="btn btn-link btn-xs" data-id="{$id}" title="Delete"><i class="fa fa-trash"></i></button>
+                    </div>
+HTML
+                );
+            },
+            'width' => '15%',
+            'className' => 'td-actions',
+        ];
+    }
+
+    public function getDataTablesFields()
+    {
+        return $this->getDatatableFields() + ['' => $this->setActionField()];
+    }
+}

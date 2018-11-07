@@ -1,0 +1,24 @@
+{
+    "name": "livecms/resources",
+    "description": "Live CMS Forms",
+    "homepage": "https://github.com/livecms/resources",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mokhamad Rofiudin",
+            "email": "mokh.rofiudin@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LiveCMS\\Resources\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LiveCMS\\Resources\\ServiceProvider"
+            ]
+        }
+    }
+}
