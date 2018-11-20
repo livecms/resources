@@ -20,5 +20,8 @@
                 "LiveCMS\\Resources\\ServiceProvider"
             ]
         }
+    },
+    "require": {
+        "livecms/datatables": "dev-master"
     }
 }
