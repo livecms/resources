@@ -23,6 +23,7 @@
     },
     "require": {
         "livecms/datatables": "dev-master",
-        "livecms/forms": "dev-master"
+        "livecms/forms": "dev-master",
+        "livecms/medialibrary": "dev-master"
     }
 }
