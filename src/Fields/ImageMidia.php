@@ -2,7 +2,7 @@
 
 namespace LiveCMS\Resources\Fields;
 
-class ImageMidia extends Field
+class ImageMidia extends Image
 {
     public function toForm()
     {

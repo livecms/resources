@@ -2,7 +2,7 @@
 
 namespace LiveCMS\Resources\Fields;
 
-class TinyMCEMidia extends Field
+class TinyMCEMidia extends TinyMCE
 {
     public function toForm()
     {
