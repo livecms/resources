@@ -28,6 +28,7 @@ abstract class Controller implements HasDataTables
     public function __construct()
     {
         $this->request = app('request');
+        static::$model::observe($this);
     }
 
     public static function register()

@@ -14,13 +14,13 @@ trait Show
         foreach ($this->fields($this->request) as $field) {
             if ($datatable = $field->is('onShow')) {
                 $fieldName = $field->getField();
-                $value = $model->$fieldName;
+                $field->setModel($model);
                 if (!$keyFieldValue && $field instanceof ID) {
                     $keyFieldLabel = $field->getLabel();
-                    $keyFieldValue = $field->toShow($value);
+                    $keyFieldValue = $field->toShow();
                     continue;
                 }
-                $showFields[$field->getLabel()] = $field->toShow($value);
+                $showFields[$field->getLabel()] = $field->toShow();
             }
         }
 

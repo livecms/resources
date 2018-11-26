@@ -4,8 +4,8 @@ namespace LiveCMS\Resources\Fields\Traits;
 
 trait Show
 {
-    public function toShow($value)
+    public function toShow()
     {
-        return $value;
+        return $this->value();
     }
 }

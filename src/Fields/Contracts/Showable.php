@@ -4,5 +4,5 @@ namespace LiveCMS\Resources\Fields\Contracts;
 
 interface Showable
 {
-    public function toShow($value);
+    public function toShow();
 }

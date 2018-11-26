@@ -4,9 +4,12 @@ namespace LiveCMS\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use LiveCMS\Form\Forms;
+use LiveCMS\MediaLibrary\MediaLibraryTrait;
 
 trait Form
 {
+    use MediaLibraryTrait;
+
     public function renderForm(Model $model = null)
     {
         $form = Forms::create()

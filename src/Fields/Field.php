@@ -18,6 +18,7 @@ abstract class Field implements Datatableable, Formable, Showable, Validable
 {
     use Datatable, Form, Show, Visibility, Validation;
 
+    protected $model;
     protected $field;
     protected $label;
     protected $validators;
@@ -48,5 +49,15 @@ abstract class Field implements Datatableable, Formable, Showable, Validable
     public function getLabel()
     {
         return $this->label;
+    }
+
+    public function setModel($model)
+    {
+        return $this->model = $model;
+    }
+
+    public function value()
+    {
+        return $this->model->{$this->field};
     }
 }
