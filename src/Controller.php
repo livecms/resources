@@ -15,6 +15,7 @@ abstract class Controller implements HasDataTables
     protected $request;
 
     public static $name;
+    public static $caption;
     public static $title = 'name';
     public static $uri;
     public static $model;
@@ -38,6 +39,7 @@ abstract class Controller implements HasDataTables
                 ?? Str::replaceLast('Resource', '', basename(
                         str_replace('\\', '//', static::$model)
                     ), '-');
+        static::$caption = static::$caption ?? title_case(snake_case(static::$name, ' '));
 
         static::routeTo(static::$uri ?? Str::snake(static::$name, '-'));
     }
