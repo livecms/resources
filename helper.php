@@ -33,6 +33,15 @@ if (! function_exists('ResModel')) {
     }
 }
 
+if (! function_exists('ResTitle')) {
+    function ResTitle()
+    {
+        $model = ResModel();
+        $title = ResAttribute('title');
+        return $model->{$title} ?? ResAttribute('caption');
+    }
+}
+
 if (! function_exists('ResValidationJS')) {
 
     function ResValidationJS() {
