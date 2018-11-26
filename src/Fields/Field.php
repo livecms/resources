@@ -58,6 +58,6 @@ abstract class Field implements Datatableable, Formable, Showable, Validable
 
     public function value()
     {
-        return $this->model->{$this->field};
+        return $this->model->{$this->field} ?? null;
     }
 }
