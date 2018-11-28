@@ -29,7 +29,7 @@ if (! function_exists('ResModel')) {
     function ResModel()
     {
         $controller = ResController();
-        return $controller::$instanceModel;
+        return $controller::getInstanceModel();
     }
 }
 
@@ -37,8 +37,8 @@ if (! function_exists('ResTitle')) {
     function ResTitle()
     {
         $model = ResModel();
-        $title = ResAttribute('title');
-        return $model->{$title} ?? ResAttribute('caption');
+        $title = ResController()::getTitleField();
+        return $model->{$title} ?? ResController()::getCaption();
     }
 }
 

@@ -83,7 +83,7 @@ trait Resource
      */
     public function show($id)
     {
-        static::$instanceModel = $model = $this->model()->findOrFail($id);
+        static::setInstanceModel($model = $this->model()->findOrFail($id));
         $this->renderShow($model);
         return view(static::$baseView.'.show');
     }
@@ -95,7 +95,7 @@ trait Resource
      */
     public function edit($id)
     {
-        static::$instanceModel = $model = $this->model()->findOrFail($id);
+        static::setInstanceModel($model = $this->model()->findOrFail($id));
         $this->renderForm($model);
         return view(static::$baseView.'.edit');
     }
@@ -114,7 +114,7 @@ trait Resource
             [],
             $this->getLabelFields('update')
         );
-        static::$instanceModel = $model = $this->model()->findOrFail($id);
+        static::setInstanceModel($model = $this->model()->findOrFail($id));
         if ($model->update($this->request->all())) {
             return
                 redirect(
