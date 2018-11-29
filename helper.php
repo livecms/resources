@@ -17,11 +17,17 @@ if (! function_exists('ResAttribute')) {
     }
 }
 
+if (! function_exists('ResBaseRoute')) {
+    function ResBaseRoute()
+    {
+        return ResController()::getBaseRoute();
+    }
+}
+
 if (! function_exists('ResRoute')) {
     function ResRoute($route, array $params = [])
     {
-        $controller = ResController();
-        return $controller::route($route, $params);
+        return ResController()::route($route, $params);
     }
 }
 
