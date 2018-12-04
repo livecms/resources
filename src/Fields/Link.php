@@ -2,12 +2,12 @@
 
 namespace LiveCMS\Resources\Fields;
 
-class Text extends Field
+class Link extends Hiden
 {
     public function toForm()
     {
         return [
-            'type' => 'text',
+            'type' => 'link',
             'default' => $this->value,
             'label' => $this->getLabel(),
         ];

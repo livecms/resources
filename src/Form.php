@@ -24,10 +24,25 @@ trait Form
         // view()->share(compact('form'));
     }
 
+    public function renderButton(Model $model = null)
+    {
+        $button = Forms::create()
+                    ->setComponents(
+                        $this->getFormButtons($model === null)
+                    );
+        $button = $button->setName('button')->render();
+        // view()->share(compact('button'));
+    }
+
     public function getFormFields($create = false)
     {
-        $fields = [];
-        foreach ($this->fields($this->request) as $field) {
+        return $this->processFields($this->fields($this->request), $Old = [], $create);
+    }
+
+    public function processFields($theFields = [], $old = [], $create = false)
+    {
+        $fields = $old;
+        foreach ($theFields as $field) {
             if ($create ? $field->is('onCreate') : $field->is('onEdit')) {
                 if ($form = $field->toForm()) {
                     $fields[$field->getField()] = $form;
@@ -35,6 +50,23 @@ trait Form
             }
         }
         return $fields;
+    }
+
+    public function getFormButtons($create = false)
+    {
+        if (!method_exists($this, 'buttons')) {
+            return [];
+        }
+
+        $buttons = [];
+        foreach ($this->buttons($this->request) as $button) {
+            if ($create ? $button->is('onCreate') : $button->is('onEdit')) {
+                if ($collection = $button->toForm()) {
+                    $buttons[$button->getField()] = $collection;
+                }
+            }
+        }
+        return $buttons;
     }
 
     public function getLabelFields($create = false)

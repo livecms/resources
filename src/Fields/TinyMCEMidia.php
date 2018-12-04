@@ -8,6 +8,7 @@ class TinyMCEMidia extends TinyMCE
     {
         return [
             'type' => 'tinymce-midia',
+            'default' => $this->value,
             'label' => $this->getLabel(),
         ];
     }

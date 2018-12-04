@@ -26,6 +26,7 @@ class TinyMCE extends Field
     {
         return [
             'type' => 'tinymce',
+            'default' => $this->value,
             'label' => $this->getLabel(),
         ];
     }

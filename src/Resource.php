@@ -33,7 +33,22 @@ trait Resource
     public function create()
     {
         $this->renderForm();
+        $this->renderButton();
         return view(static::$baseView.'.create');
+    }
+
+    protected function afterStored($model)
+    {
+        return 
+            redirect(
+                    static::route('index')
+                )->with(
+                    'success',
+                    __(
+                        'New :resource_name has been created.',
+                        ['resource_name' => static::$title]
+                    )
+                );
     }
 
     /**
@@ -50,17 +65,8 @@ trait Resource
             $this->getLabelFields('create')
         );
 
-        if ($this->model()->create($this->request->all())) {
-            return
-                redirect(
-                    static::route('index')
-                )->with(
-                    'success',
-                    __(
-                        'New :resource_name has been created.',
-                        ['resource_name' => static::$title]
-                    )
-                );
+        if ($new = $this->model()->create($this->request->all())) {
+            return $this->afterStored($new);
         }
 
         return
@@ -97,7 +103,22 @@ trait Resource
     {
         static::setInstanceModel($model = $this->model()->findOrFail($id));
         $this->renderForm($model);
+        $this->renderButton($model);
         return view(static::$baseView.'.edit');
+    }
+
+    protected function afterUpdated($model)
+    {
+        return
+            redirect(
+                    static::route('index')
+                )->with(
+                    'success',
+                    __(
+                        ':resource_name has been updated.',
+                        ['resource_name' => static::$title]
+                    )
+                );
     }
 
     /**
@@ -115,29 +136,11 @@ trait Resource
             $this->getLabelFields('update')
         );
         static::setInstanceModel($model = $this->model()->findOrFail($id));
-        if ($model->update($this->request->all())) {
-            return
-                redirect(
-                    static::route('index')
-                )->with(
-                    'success',
-                    __(
-                        ':resource_name has been updated.',
-                        ['resource_name' => static::$title]
-                    )
-                );
+        if ($exist = $model->update($this->request->all())) {
+            return $this->afterUpdated($exist);
         }
 
-        return
-            back()
-            ->withInput()
-            ->with(
-                'error',
-                __(
-                    'Error when updating :resource_name.',
-                    ['resource_name' => static::$title]
-                )
-            );
+        return $this->afterUpdated($exist);
     }
 
     /**

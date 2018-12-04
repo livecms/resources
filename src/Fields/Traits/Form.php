@@ -8,6 +8,7 @@ trait Form
     {
         return [
             'type' => 'text',
+            'default' => $this->value,
             'label' => $this->getLabel(),
         ];
     }

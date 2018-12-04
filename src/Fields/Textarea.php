@@ -8,6 +8,7 @@ class Textarea extends Field
     {
         return [
             'type' => 'textarea',
+            'default' => $this->value,
             'label' => $this->getLabel(),
         ];
     }

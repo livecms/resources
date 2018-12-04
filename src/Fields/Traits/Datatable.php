@@ -24,4 +24,16 @@ trait Datatable
         $this->sortable = $true;
         return $this;
     }
+
+    public function setDefaultSort($by = 'asc')
+    {
+        $this->sortable = $by !== false;
+        $this->defaultSort = $by;
+        return $this;
+    }
+
+    public function getDefaultSort()
+    {
+        return $this->defaultSort;
+    }
 }

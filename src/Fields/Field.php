@@ -21,9 +21,11 @@ abstract class Field implements Datatableable, Formable, Showable, Validable
     protected $model;
     protected $field;
     protected $label;
+    protected $value;
     protected $validators;
     protected $creatingValidators;
     protected $updatingValidators;
+    protected $defaultSort;
     protected $sortable = false;
     protected $onIndex = true;
     protected $onCreate = true;
@@ -53,11 +55,18 @@ abstract class Field implements Datatableable, Formable, Showable, Validable
 
     public function setModel($model)
     {
-        return $this->model = $model;
+        $this->model = $model;
+        return $this;
+    }
+
+    public function setValue($value)
+    {
+        $this->value = $value;
+        return $this;
     }
 
     public function value()
     {
-        return $this->model->{$this->field} ?? null;
+        return $this->model->{$this->field} ?? $this->value;
     }
 }

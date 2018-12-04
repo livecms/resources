@@ -13,6 +13,7 @@ class ImageMidia extends Image
     {
         return [
             'type' => 'image-midia',
+            'default' => $this->value,
             'label' => $this->getLabel(),
         ];
     }

@@ -16,7 +16,6 @@ abstract class Controller implements HasDataTables
     protected $request;
     protected $instanceModel;
     protected static $baseView;
-    protected static $allBaseRoutes = [];
     protected static $allInstanceModels = [];
 
     public function __construct()
@@ -29,15 +28,13 @@ abstract class Controller implements HasDataTables
         static::$model::observe($this);
     }
 
-    public static function register($baseRoute = '')
+    public static function register($uri = null)
     {
         if (!property_exists(static::class, 'model')) {
             throw new Exception("Please define a model first", 1);
         }
 
-        static::$allBaseRoutes[static::class] = $baseRoute;
-
-        static::routeTo(static::getUri());
+        static::routeTo($uri ?? static::getUri());
     }
 
     public static function getName()
@@ -79,18 +76,16 @@ abstract class Controller implements HasDataTables
 
     public static function getBaseRoute()
     {
-        return static::$allBaseRoutes[static::class];
+        $controller = static::class;
+        $routeCollection = Route::getRoutes();
+        $action = $controller.'@index';
+        $route = $routeCollection->getByAction($action);
+        return Str::replaceLast('.index', '', $route->getAction()['as']);
     }
 
-    public static function uri($uri = null)
+    public static function route($route, array $params = [])
     {
-        if ($uri !== null) {
-            return static::$uri = $uri;
-        }
-        if (!static::$uri) {
-            static::register();
-        }
-        return static::$uri;
+        return route(static::getBaseRoute().'.'.$route, $params);
     }
 
     protected static function setInstanceModel($model)
@@ -106,7 +101,7 @@ abstract class Controller implements HasDataTables
     protected static function routeTo($uri)
     {
         $class = static::class;
-        $datatableUri = basename($uri).'.datatable';
+        $datatableUri = $uri.'.datatable';
         Route::any(
             $uri.'/datatable',
             [
@@ -115,15 +110,6 @@ abstract class Controller implements HasDataTables
             ]
         );
         Route::resource($uri, $class);
-    }
-
-    public static function route($uri = null, array $params = [])
-    {
-        $baseRoute = ltrim(rtrim(static::getBaseRoute(), '.').'.'.static::getUri(), '.');
-        if ($uri == null) {
-            return route($baseRoute, $params);
-        }
-        return route($baseRoute.'.'.$uri, $params);
     }
 
     public function model()

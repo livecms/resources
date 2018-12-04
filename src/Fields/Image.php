@@ -33,6 +33,7 @@ class Image extends Field
     {
         return [
             'type' => 'image',
+            'default' => $this->value,
             'label' => $this->getLabel(),
         ];
     }

@@ -9,7 +9,12 @@ trait Datatable
 {
     public function getDatatable()
     {
-        return new DataTables($this);
+        $datatables = new DataTables($this);
+        if (($defaultSorts = $this->getDefaultSort()) != []) {
+            $datatables->setDefaultOrder($defaultSorts);
+        }
+
+        return $datatables;
     }
 
     public function toDataTablesQuery()
@@ -30,6 +35,21 @@ trait Datatable
             }
         }
         return $fields;
+    }
+
+    public function getDefaultSort()
+    {
+        $sort = [];
+        $number = 0;
+        foreach ($this->fields($this->request) as $field) {
+            if ($field->is('onIndex') && $datatable = $field->toDatatable()) {
+                if ($field->getDefaultSort() != false) {
+                    $sort[] = [$number, $field->getDefaultSort()];
+                }
+            }
+        }
+
+        return $sort;
     }
 
     public function setActionField()
