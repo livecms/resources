@@ -6,7 +6,7 @@ class ImageMidia extends Image
 {
     public function value()
     {
-        return $this->model->media->where('field', $this->field)->first()->thumbnail ?? null;
+        return $this->model->getMediaData($this->field)->thumbnail ?? null;
     }
 
     public function toForm()
