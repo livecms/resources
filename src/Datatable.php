@@ -59,9 +59,9 @@ trait Datatable
             'searchable' => false,
             'resolve' => function ($row) {
                 $id = $row->getKey();
-                $showUrl = static::route('show', compact('id'));
-                $editUrl = static::route('edit', compact('id'));
-                $destroyUrl = static::route('destroy', compact('id'));
+                $showUrl = $this->toRoute('show', compact('id'));
+                $editUrl = $this->toRoute('edit', compact('id'));
+                $destroyUrl = $this->toRoute('destroy', compact('id'));
                 return new HtmlString(
 <<<HTML
                     <div class="action-buttons">

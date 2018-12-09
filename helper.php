@@ -1,10 +1,25 @@
 <?php
 
+if (! function_exists('ResAction')) {
+    function ResAction()
+    {
+        $action = null;
+        if ($route = app('request')->route()) {
+            $action = $route->getAction();
+        }
+        return $action;
+    }
+}
+
 if (! function_exists('ResController')) {
     function ResController()
     {
-        $controller = app('request')->route()->getAction()['controller'];
-        list($controller, $action) = explode('@', $controller);
+        $controller = null;
+        if ($action = ResAction()) {
+            $controller = $action['controller'];
+            list($controller, $action) = explode('@', $controller);
+        }
+
         return $controller;
     }
 }
@@ -20,14 +35,16 @@ if (! function_exists('ResAttribute')) {
 if (! function_exists('ResBaseRoute')) {
     function ResBaseRoute()
     {
-        return ResController()::getBaseRoute();
+        $parts = explode('.', ResAction()['as']);
+        array_pop($parts);
+        return implode('.', $parts);
     }
 }
 
 if (! function_exists('ResRoute')) {
     function ResRoute($route, array $params = [])
     {
-        return ResController()::route($route, $params);
+        return route(ResBaseRoute().'.'.$route, $params);
     }
 }
 

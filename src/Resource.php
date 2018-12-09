@@ -41,7 +41,7 @@ trait Resource
     {
         return 
             redirect(
-                    static::route('index')
+                    $this->toRoute('index')
                 )->with(
                     'success',
                     __(
@@ -111,7 +111,7 @@ trait Resource
     {
         return
             redirect(
-                    static::route('index')
+                    $this->toRoute('index')
                 )->with(
                     'success',
                     __(

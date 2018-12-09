@@ -28,6 +28,39 @@ abstract class Controller implements HasDataTables
         static::$model::observe($this);
     }
 
+    public function getCurrentAction()
+    {
+        $action = null;
+        if ($route = app('request')->route()) {
+            $action = $route->getAction();
+        }
+
+        return $action;
+    }
+
+    public function baseRoute()
+    {
+        $parts = explode('.', $this->getCurrentAction()['as']);
+        array_pop($parts);
+        return implode('.', $parts);
+    }
+
+    public function toRoute($route, $params = [])
+    {
+        return route($this->baseRoute().'.'.$route, $params);
+    }
+
+    public function getCurrentController()
+    {
+        $controller = null;
+        if ($action = $this->getCurrentAction()) {
+            $controller = $action['controller'];
+            list($controller, $action) = explode('@', $controller);
+        }
+
+        return $controller;
+    }
+
     public static function register($uri = null)
     {
         if (!property_exists(static::class, 'model')) {
