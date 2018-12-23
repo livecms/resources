@@ -67,7 +67,7 @@ trait Datatable
                     <div class="action-buttons">
                         <a href="{$showUrl}" class="btn btn-link btn-xs" data-id="{$id}" title="Show"><i class="fa fa-eye"></i></a>
                         <a href="{$editUrl}" class="btn btn-link btn-xs" data-id="{$id}" title="Edit"><i class="fa fa-pencil"></i></a>
-                        <button class="btn btn-link btn-xs" data-id="{$id}" title="Delete"><i class="fa fa-trash"></i></button>
+                        <a href="{$destroyUrl}" class="btn btn-link btn-xs" data-id="{$id}" data-delete="form" title="Delete"><i class="fa fa-trash"></i></a>
                     </div>
 HTML
                 );

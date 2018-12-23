@@ -148,8 +148,9 @@ trait Resource
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy($id)
     {
-        //
+        $model = $this->model()->findOrFail($id);
+        return ['success' => $model->delete()];
     }
 }
